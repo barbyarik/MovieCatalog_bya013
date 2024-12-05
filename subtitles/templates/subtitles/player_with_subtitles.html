@@ -1,0 +1,18 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'subtitles/css/video_player.css' %}">
+
+<div id="player-container" style="position: relative;">
+    <div class="ratio ratio-16x9">
+        <iframe id="youtube_video" src="https://www.youtube.com/embed/{{ url_id }}?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div id="subtitle"></div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+    var subtitles= JSON.parse('{{ subtitles|safe }}');
+</script>
+
+<script src="{% static 'subtitles/js/video_player.js' %}"></script>

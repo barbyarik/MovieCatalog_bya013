@@ -1,0 +1,13 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'subtitles/css/form_styles.css' %}">
+
+<div class="custom-form">
+    <h1>Удаление субтитра</h1>
+    <p>Вы уверены, что хотите удалить данный субтитр: "{{ subtitle.text }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Подтвердить</button>
+        <a href="{% url 'create_subtitle' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>

@@ -1,0 +1,85 @@
+.custom-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.custom-form h1 {
+    text-align: center;
+    color: #333;
+}
+
+.custom-form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+.custom-form input,
+.custom-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.custom-form textarea {
+    resize: vertical;
+}
+
+.custom-form select {
+    width: 100%;
+}
+
+.custom-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: rgb(13, 110, 253);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-form button:hover {
+    background-color: rgb(10, 95, 221);
+}
+
+.custom-form button.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.custom-form button.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.custom-form button.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.custom-form button.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.custom-form p {
+    color: rgb(13, 110, 253);
+    font-size: 1.2em;
+}
+
+.custom-form a {
+    text-decoration: none;
+    color: #212529;
+}
+
+.custom-form a:hover {
+    text-decoration: underline;
+}

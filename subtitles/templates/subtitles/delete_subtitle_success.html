@@ -1,0 +1,11 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'subtitles/css/form_styles.css' %}">
+
+<div class="custom-form">
+    <h1>Субтитр удален</h1>
+    <p>Ваш субтитр удачно был удален.</p>
+    <a href="{% url 'create_subtitle' %}" class="btn btn-primary">Добавить субтитр</a>
+    <br>
+    <a href="{% url 'admin:subtitles_subtitle_changelist' %}" class="btn btn-secondary">Перейти в панель управления</a>
+</div>
