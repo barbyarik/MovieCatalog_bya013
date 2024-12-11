@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'films.apps.FilmsConfig',
-    'subtitles',
+    'subtitles.apps.SubtitlesConfig',
     'django_extensions',
 ]
 

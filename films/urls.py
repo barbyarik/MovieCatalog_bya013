@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 app_name = "films"
@@ -39,4 +39,5 @@ urlpatterns = [
          views.person_delete, name='person_delete'),
     path('people/autocomplete/',
          views.PersonAutocomplete.as_view(), name='person_autocomplete'),
+    path('subtitles/', include('subtitles.urls', namespace='subtitles')),
 ]

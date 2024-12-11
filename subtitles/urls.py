@@ -1,10 +1,11 @@
 from django.urls import path
-from . import views
+from .views import SubtitleListView, SubtitleCreateView,\
+SubtitleUpdateView, SubtitleDeleteView
 
+app_name = 'subtitles'
 urlpatterns = [
-    path('create_subtitle/', views.create_subtitle, name='create_subtitle'),
-    path('create_subtitle/success/', views.create_subtitle_success, name='create_subtitle_success'),
-    path('edit_subtitle/<int:subtitle_id>/', views.edit_subtitle, name='edit_subtitle'),
-    path('delete_subtitle/<int:subtitle_id>/', views.delete_subtitle, name='delete_subtitle'),
-    path('delete_subtitle/success/', views.delete_subtitle_success, name='delete_subtitle_success'),
+    path('<int:film_id>/list/', SubtitleListView.as_view(), name='subtitle_list'),
+    path('<int:film_id>/add/', SubtitleCreateView.as_view(), name='subtitle_add'),
+    path('<int:film_id>/<int:pk>/edit/', SubtitleUpdateView.as_view(), name='subtitle_edit'),
+    path('<int:film_id>/<int:pk>/delete/', SubtitleDeleteView.as_view(), name='subtitle_delete'),
 ]

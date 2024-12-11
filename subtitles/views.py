@@ -6,43 +6,87 @@ from .models import Subtitle
 from films.models import Film
 import json
 
-@staff_member_required
-def create_subtitle(request):
-    if request.method == 'POST':
-        form = SubtitleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('create_subtitle_success')
-    else:
-        form = SubtitleForm()
-    return render(request, 'subtitles/create_subtitle.html', {'form': form})
+from django.shortcuts import get_object_or_404, redirect, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .models import Subtitle
+from films.models import Film
+from .forms import SubtitleForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+class SubtitleListView(LoginRequiredMixin, ListView):
+    model = Subtitle
+    template_name = 'subtitles/subtitle_list.html'
+    context_object_name = 'subtitles'
 
-def create_subtitle_success(request):
-    return render(request, 'subtitles/create_subtitle_success.html')
+    def get_queryset(self):
+        self.film = get_object_or_404(Film, pk=self.kwargs['film_id'])
+        return Subtitle.objects.filter(film=self.film)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['film'] = self.film
+        return context
 
-@staff_member_required
-def edit_subtitle(request, subtitle_id):
-    subtitle = get_object_or_404(Subtitle, pk=subtitle_id)
-    if request.method == 'POST':
-        form = SubtitleForm(request.POST, instance=subtitle)
-        if form.is_valid():
-            form.save()
-            return redirect('create_subtitle_success')
-    else:
-        form = SubtitleForm(instance=subtitle)
-    return render(request, 'subtitles/edit_subtitle.html', {'form': form})
+class SubtitleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView, ListView):
+    model = Subtitle
+    form_class = SubtitleForm
+    template_name = 'subtitles/subtitle_form.html'
 
+    def get_queryset(self):
+        self.film = get_object_or_404(Film, pk=self.kwargs['film_id'])
+        return Subtitle.objects.filter(film=self.film)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['film'] = self.film
+        return context
 
-@staff_member_required
-def delete_subtitle(request, subtitle_id):
-    subtitle = get_object_or_404(Subtitle, pk=subtitle_id)
-    if request.method == 'POST':
-        subtitle.delete()
-        return redirect('delete_subtitle_success')
-    return render(request, 'subtitles/delete_subtitle.html', {'subtitle': subtitle})
+    def test_func(self):
+        return self.request.user.is_superuser
 
+    def form_valid(self, form):
+        form.instance.film = get_object_or_404(Film, pk=self.kwargs['film_id'])
+        return super().form_valid(form)
 
-def delete_subtitle_success(request):
-    return render(request, 'subtitles/delete_subtitle_success.html')
+    def get_success_url(self):
+        return reverse('films:subtitles:subtitle_list', kwargs={'film_id': self.kwargs['film_id']})
+
+class SubtitleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Subtitle
+    form_class = SubtitleForm
+    template_name = 'subtitles/subtitle_update.html'
+
+    def get_queryset(self):
+        self.film = get_object_or_404(Film, pk=self.kwargs['film_id'])
+        return Subtitle.objects.filter(film=self.film)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['film'] = self.film
+        return context
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_success_url(self):
+        return reverse('films:subtitles:subtitle_list', kwargs={'film_id': self.kwargs['film_id']})
+
+class SubtitleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Subtitle
+    template_name = 'subtitles/subtitle_delete.html'
+
+    def get_queryset(self):
+        self.film = get_object_or_404(Film, pk=self.kwargs['film_id'])
+        return Subtitle.objects.filter(film=self.film)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['film'] = self.film
+        return context
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_success_url(self):
+        film_id = self.object.film.id
+        return reverse('films:subtitles:subtitle_list', kwargs={'film_id': film_id})
